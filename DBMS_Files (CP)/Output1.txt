@@ -1,0 +1,49 @@
+
+<--------------CREATING A NEW FILE AND SETTING UP PRIMARY KEY------------->
+
+Welcome to The DataBase Manager!
+
+Choose an Option from the Master Menu:
+1.Create a New File.
+2.Open an Existing File.
+3.Delete a File.
+Choose an Option(1-3): 1
+
+Create File with the Name: Myfile
+"Myfile.csv" Created and Opened Successfully!
+
+Choose an Option:
+1.Add a New Field
+2.Remove a Field
+3.Add a New Record
+4.View a Record
+5.Display all Records
+6.End Program
+Select 1-6: 1
+
+Enter Field Name: Serial No.
+Field Added!
+
+Choose an Option:    
+1.Add a New Field    
+2.Remove a Field     
+3.Add a New Record   
+4.View a Record      
+5.Display all Records
+6.End Program        
+Select 1-6: 1
+
+Enter Field Name: Grocery Item
+Field Added!      
+
+Choose an Option: 
+1.Add a New Field 
+2.Remove a Field  
+3.Add a New Record
+4.View a Record   
+5.Display all Records
+6.End Program
+Select 1-6: 3
+
+Choose and Enter a Field as the Primary Key: Serial No.
+Success! Primary Key Set.

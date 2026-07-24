@@ -1,0 +1,81 @@
+
+<---------------ADDING FIELDS AND RECORDS, AND DISPLAYING THEM---------------->
+
+Choose an Option:
+1.Add a New Field
+2.Remove a Field
+3.Add a New Record
+4.View a Record
+5.Display all Records
+6.End Program
+Select 1-6: 3
+
+Enter Serial No.: 01
+Enter Grocery Item: Onions
+Record Added!
+
+Choose an Option:
+1.Add a New Field
+2.Remove a Field
+3.Add a New Record
+4.View a Record
+5.Display all Records
+6.End Program
+Select 1-6: 3
+
+Enter Serial No.: 02
+Enter Grocery Item: Tomatoes
+Record Added!
+
+Choose an Option:
+1.Add a New Field
+2.Remove a Field
+3.Add a New Record
+4.View a Record
+5.Display all Records
+6.End Program
+Select 1-6: 5
+
+ Serial No. | Grocery Item |
+     01     |    Onions    |       
+     02     |   Tomatoes   |       
+
+Choose an Option:
+1.Add a New Field
+2.Remove a Field
+3.Add a New Record
+4.View a Record
+5.Display all Records
+6.End Program
+Select 1-6: 1
+
+Enter Field Name: Quantity
+Field Added!
+
+Choose an Option:
+1.Add a New Field
+2.Remove a Field
+3.Add a New Record
+4.View a Record
+5.Display all Records
+6.End Program
+Select 1-6: 3
+
+Enter Serial No.: 03
+Enter Grocery Item: Eggs
+Enter Quantity: 8
+Record Added!
+
+Choose an Option:
+1.Add a New Field
+2.Remove a Field
+3.Add a New Record
+4.View a Record
+5.Display all Records
+6.End Program
+Select 1-6: 5
+
+ Serial No. | Grocery Item | Quantity |      
+     01     |    Onions    |
+     02     |   Tomatoes   |
+     03     |     Eggs     |    8     |      

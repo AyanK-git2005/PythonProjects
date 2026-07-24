@@ -1,0 +1,207 @@
+--------Account Selection Menu--------
+Select an Option:
+
+1. Login as Administrator
+2. Login as User
+3. Create a New User Account
+4. Exit the Application
+
+Your Choice: 1
+Enter your Password (Or 'X' to go back): admin123
+You Logged in as Administrator Successfully!
+
+-------Administrator Dashboard-------
+Select an Option:
+
+1. Show Available Cars
+2. Show Active Reservations
+3. Add Car(s)
+4. Remove Car
+5. Generate Customer Report
+6. View User Feedback
+7. Logout
+
+Your Choice: 1
+
+C-ID |   Name   | Model | Manufacturer |  Seats  |   Rate    | 
+C101 | Corolla  | 2022  |    Toyota    | 5 Seats | PKR 13000 | 
+C102 | Corolla  | 2022  |    Toyota    | 5 Seats | PKR 13000 | 
+C103 | Corolla  | 2022  |    Toyota    | 5 Seats | PKR 13000 | 
+C104 |  Civic   | 2024  |    Honda     | 5 Seats | PKR 17500 | 
+C105 |   City   | 2021  |    Honda     | 5 Seats | PKR 13500 | 
+C106 | Fortuner | 2024  |    Toyota    | 7 Seats | PKR 21000 | 
+
+-------Administrator Dashboard-------
+Select an Option:
+
+1. Show Available Cars
+2. Show Active Reservations
+3. Add Car(s)
+4. Remove Car
+5. Generate Customer Report
+6. View User Feedback
+7. Logout
+
+Your Choice: 2
+
+R-ID | Status | U-ID |   Client    | C-ID | Reserved Car | Model | Rental Period | Start Date |  End Date  | Rental Fee | 
+R103 | Active | U101 | abdurRahman | C107 |     Alto     | 2020  |    2 Days     | 2025-05-18 | 2025-05-20 | PKR 16000  | 
+
+-------Administrator Dashboard-------
+Select an Option:
+
+1. Show Available Cars
+2. Show Active Reservations
+3. Add Car(s)
+4. Remove Car
+5. Generate Customer Report
+6. View User Feedback
+7. Logout
+
+Your Choice: 3
+How many Cars you want to Add? 2
+Enter Details of Car 1:
+
+Enter the Car Name: Hiace
+Enter the Car Model: 2016
+Enter the Car Manufacturer: Toyota
+Enter the Number of Seats: 15
+Enter the Car's Rental Rate: PKR 20000
+
+Car Added Successfully!
+
+Enter Details of Car 2:
+
+Enter the Car Name: Mehran
+Enter the Car Model: 2011
+Enter the Car Manufacturer: Suzuki
+Enter the Number of Seats: 5
+Enter the Car's Rental Rate: PKR 6000
+
+Car Added Successfully!
+
+
+-------Administrator Dashboard-------
+Select an Option:
+
+1. Show Available Cars
+2. Show Active Reservations
+3. Add Car(s)
+4. Remove Car
+5. Generate Customer Report
+6. View User Feedback
+7. Logout
+
+Your Choice: 1
+
+C-ID |   Name   | Model | Manufacturer |  Seats   |   Rate    | 
+C101 | Corolla  | 2022  |    Toyota    | 5 Seats  | PKR 13000 | 
+C102 | Corolla  | 2022  |    Toyota    | 5 Seats  | PKR 13000 | 
+C103 | Corolla  | 2022  |    Toyota    | 5 Seats  | PKR 13000 | 
+C104 |  Civic   | 2024  |    Honda     | 5 Seats  | PKR 17500 | 
+C105 |   City   | 2021  |    Honda     | 5 Seats  | PKR 13500 | 
+C106 | Fortuner | 2024  |    Toyota    | 7 Seats  | PKR 21000 | 
+C108 |  Hiace   | 2016  |    Toyota    | 15 Seats | PKR 20000 | 
+C109 |  Mehran  | 2011  |    Suzuki    | 5 Seats  | PKR 6000  | 
+
+-------Administrator Dashboard-------
+Select an Option:
+
+1. Show Available Cars
+2. Show Active Reservations
+3. Add Car(s)
+4. Remove Car
+5. Generate Customer Report
+6. View User Feedback
+7. Logout
+
+Your Choice: 4
+
+C-ID |   Name   | Model | Manufacturer |  Seats   |   Rate    | 
+C101 | Corolla  | 2022  |    Toyota    | 5 Seats  | PKR 13000 | 
+C102 | Corolla  | 2022  |    Toyota    | 5 Seats  | PKR 13000 | 
+C103 | Corolla  | 2022  |    Toyota    | 5 Seats  | PKR 13000 | 
+C104 |  Civic   | 2024  |    Honda     | 5 Seats  | PKR 17500 | 
+C105 |   City   | 2021  |    Honda     | 5 Seats  | PKR 13500 | 
+C106 | Fortuner | 2024  |    Toyota    | 7 Seats  | PKR 21000 | 
+C108 |  Hiace   | 2016  |    Toyota    | 15 Seats | PKR 20000 | 
+C109 |  Mehran  | 2011  |    Suzuki    | 5 Seats  | PKR 6000  | 
+
+Enter the ID of the Car to be Removed (Or Enter 'X' to go back): C101
+Car with ID C101 Removed Successfully
+
+-------Administrator Dashboard-------
+Select an Option:
+
+1. Show Available Cars
+2. Show Active Reservations
+3. Add Car(s)
+4. Remove Car
+5. Generate Customer Report
+6. View User Feedback
+7. Logout
+
+Your Choice: 1
+
+C-ID |   Name   | Model | Manufacturer |  Seats   |   Rate    | 
+C102 | Corolla  | 2022  |    Toyota    | 5 Seats  | PKR 13000 | 
+C103 | Corolla  | 2022  |    Toyota    | 5 Seats  | PKR 13000 | 
+C104 |  Civic   | 2024  |    Honda     | 5 Seats  | PKR 17500 | 
+C105 |   City   | 2021  |    Honda     | 5 Seats  | PKR 13500 | 
+C106 | Fortuner | 2024  |    Toyota    | 7 Seats  | PKR 21000 | 
+C108 |  Hiace   | 2016  |    Toyota    | 15 Seats | PKR 20000 | 
+C109 |  Mehran  | 2011  |    Suzuki    | 5 Seats  | PKR 6000  | 
+
+-------Administrator Dashboard-------
+Select an Option:
+
+1. Show Available Cars
+2. Show Active Reservations
+3. Add Car(s)
+4. Remove Car
+5. Generate Customer Report
+6. View User Feedback
+7. Logout
+
+Your Choice: 5
+
+R-ID |  Status   | U-ID |   Client    | C-ID | Reserved Car | Model | Rental Period | Start Date |  End Date  | Rental Fee | 
+R101 | Cancelled | U101 | abdurRahman | C106 |   Fortuner   | 2024  |    2 Days     | 2025-05-18 | 2025-05-20 | PKR 42000  | 
+R102 | Cancelled | U101 | abdurRahman | C106 |   Fortuner   | 2024  |    3 Days     | 2025-05-18 | 2025-05-21 | PKR 63000  | 
+R103 |  Active   | U101 | abdurRahman | C107 |     Alto     | 2020  |    2 Days     | 2025-05-18 | 2025-05-20 | PKR 16000  | 
+
+-------Administrator Dashboard-------
+Select an Option:
+
+1. Show Available Cars
+2. Show Active Reservations
+3. Add Car(s)
+4. Remove Car
+5. Generate Customer Report
+6. View User Feedback
+7. Logout
+
+Your Choice: 6
+
+The Following is User Feedback:
+- Outstanding experience! (5/5)
+- Services are good but rents are high
+- Bad Service!
+- This is Stupid!
+- 9/10
+
+
+-------Administrator Dashboard-------
+Select an Option:
+
+1. Show Available Cars
+2. Show Active Reservations
+3. Add Car(s)
+4. Remove Car
+5. Generate Customer Report
+6. View User Feedback
+7. Logout
+
+Your Choice: 7
+
+Logged Out Successfully!

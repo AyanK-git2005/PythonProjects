@@ -1,0 +1,63 @@
+
+<------------DUPLICATION AND DELETION OF EXISTING FILES------------->
+
+Welcome to The DataBase Manager!
+
+Choose an Option from the Master Menu:
+1.Create a New File.
+2.Open an Existing File.
+3.Delete a File.
+Choose an Option(1-3): 1
+
+Create File with the Name: Myfile
+
+"Myfile.csv" already Exists. Choose an Option:
+
+1.Create a New File with a Similar Name: "_Myfile.csv"        
+2.Open the Original "Myfile.csv"
+3.Empty the Original "Myfile.csv" and Start from Scratch.     
+>Or Enter Any Key to Go Back to the Master Menu.
+
+Choose an Option: 1
+"_Myfile.csv" Created and Opened Successfully!
+
+Choose an Option:
+1.Add a New Field
+2.Remove a Field
+3.Add a New Record
+4.View a Record
+5.Display all Records
+Select 1-6: 6
+
+Program Ended!
+
+<------------------PROGRAM RESTART----------------------->
+
+Welcome to The DataBase Manager!
+
+Choose an Option from the Master Menu:
+1.Create a New File.
+2.Open an Existing File.
+3.Delete a File.
+Choose an Option(1-3): 3
+
+Choose a File to Delete:
+Myfile
+_Myfile
+>Or Enter "E" or to Go Back to the Master Menu.
+
+Enter the File Name(Or "E"): _Myfile
+"_Myfile.csv" Deleted Successfully!
+
+Choose an Option from the Master Menu:
+1.Create a New File.
+2.Open an Existing File.
+3.Delete a File.
+Choose an Option(1-3): 2
+
+Choose a File to Open:
+Myfile
+>Or Enter "E" to Go Back to the Master Menu.
+
+Enter the File Name(Or "E"): Myfile
+"Myfile.csv" Opened Successfully!

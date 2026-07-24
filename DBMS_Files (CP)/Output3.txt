@@ -1,0 +1,85 @@
+
+<---------------EDITING AND REMOVING RECORDS AND FIELDS---------------->
+
+Choose an Option:
+1.Add a New Field
+2.Remove a Field
+3.Add a New Record
+4.View a Record
+5.Display all Records
+6.End Program
+Select 1-6: 4
+
+Enter Serial No.: 01
+Serial No.: 01
+Grocery Item: Onions
+
+Choose an Option:
+1.Edit the Record
+2.Remove the Record
+Or Enter Any Value to Go Back.
+Enter your Choice: 1
+
+Enter a Field: Quantity
+Set New Value: 10
+Success! New Value Set.
+
+Choose an Option:
+1.Add a New Field
+2.Remove a Field
+3.Add a New Record
+4.View a Record
+5.Display all Records
+6.End Program
+Select 1-6: 4
+
+Enter Serial No.: 02
+Serial No.: 02
+Grocery Item: Tomatoes
+
+Choose an Option:
+1.Edit the Record
+2.Remove the Record
+Or Enter Any Value to Go Back.
+Enter your Choice: 2
+Record Removed!
+
+Choose an Option:
+1.Add a New Field
+2.Remove a Field
+3.Add a New Record
+4.View a Record
+5.Display all Records
+6.End Program
+Select 1-6: 5
+
+ Serial No. | Grocery Item | Quantity |
+     01     |    Onions    |    10    |
+     03     |     Eggs     |    8     |
+
+Choose an Option:
+1.Add a New Field
+2.Remove a Field
+3.Add a New Record
+4.View a Record
+5.Display all Records
+6.End Program
+Select 1-6: 2
+
+Remove Field: Serial No.
+The "Serial No." Field is the Primary Key. Removing it may Break some DataBase Functions.
+Are you Sure you want to Remove this Field? (Y/N): y
+Field Removed!
+
+Choose an Option:
+1.Add a New Field
+2.Remove a Field
+3.Add a New Record
+4.View a Record
+5.Display all Records
+6.End Program
+Select 1-6: 5
+
+ Grocery Item | Quantity |
+    Onions    |    10    |
+     Eggs     |    8     |

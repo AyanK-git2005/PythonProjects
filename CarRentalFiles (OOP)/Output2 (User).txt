@@ -1,0 +1,361 @@
+Welcome to the Best Car Rental System!
+
+--------Account Selection Menu--------
+Select an Option:
+
+1. Login as Administrator
+2. Login as User
+3. Create a New User Account
+4. Exit the Application
+
+Your Choice: 3
+
+Are you sure that you dont already have an Existing Account?
+Do you really want to make a New one?(Enter 'Y' for 'Yes'): y
+
+Enter Username: AbdurRahman
+Create a strong Password: 12345xyz
+Enter First Name: Abdur Rahman
+Enter Last Name: Abdul Hafeez
+Enter Starting Balance: PKR 20000
+
+Account Created Successfully!
+Your User ID is: U102
+
+--------Account Selection Menu--------
+Select an Option:
+
+1. Login as Administrator
+2. Login as User
+3. Create a New User Account
+4. Exit the Application
+
+Your Choice: 2
+
+Enter Your User ID (Or Enter 'X' to go back): U102
+Enter Username (Or Enter 'X' to go back): AbdurRahman
+Enter Password: 12345xyz
+
+Logged in Successfully!
+
+---------User Dashboard---------
+Select an Option:
+
+1. Reserve a Car
+2. View Current Reservation
+3. Show Reservation History
+4. Add Balance to the Account
+5. View Account Credentials
+6. Submit Feedback
+7. Logout
+8. Delete Account
+
+Your Choice: 1
+
+Here are the Available Cars:
+
+C-ID |   Name   | Model | Manufacturer |  Seats   |   Rate    | 
+C102 | Corolla  | 2022  |    Toyota    | 5 Seats  | PKR 13000 | 
+C103 | Corolla  | 2022  |    Toyota    | 5 Seats  | PKR 13000 | 
+C104 |  Civic   | 2024  |    Honda     | 5 Seats  | PKR 17500 | 
+C105 |   City   | 2021  |    Honda     | 5 Seats  | PKR 13500 | 
+C106 | Fortuner | 2024  |    Toyota    | 7 Seats  | PKR 21000 | 
+C107 |   Alto   | 2020  |    Suzuki    | 5 Seats  | PKR 8000  | 
+C108 |  Hiace   | 2016  |    Toyota    | 15 Seats | PKR 20000 | 
+C109 |  Mehran  | 2011  |    Suzuki    | 5 Seats  | PKR 6000  | 
+
+Enter the ID of the Car you want to Reserve (Or Enter 'X' to go back): C107
+
+For how many Days you want to Reserve this Car?
+4
+Error: Insufficient Balance for this Reservation!
+
+Your Current Balance is: PKR 20000
+Balance Required for this Reservation: PKR 32000
+
+Select an Option:
+1. Add More Balance to the Account and Reserve Again
+2. Reserve for a Shorter Period
+
+Your Choice: 1
+
+How much Additional Balance you want to Deposit into this Account?
+PKR 15000
+For how many Days you want to Reserve this Car?
+4
+Reservation Successful!
+
+------------Your Reservation Information-----------
+Reservation ID         | R105
+Customer Name          | Abdur Rahman Abdul Hafeez
+Reserved Car ID        | C107
+Reserved Car Name      | Alto
+Reserved Car Model     | 2020
+Reservation Period     | 4 Days
+Reservation Start Date | 2025-05-18
+Reservation End Date   | 2025-05-22
+Reservation Charges    | PKR 32000
+
+Thanks for Reserving!
+
+---------User Dashboard---------
+Select an Option:
+
+1. Reserve a Car
+2. View Current Reservation
+3. Show Reservation History
+4. Add Balance to the Account
+5. View Account Credentials
+6. Submit Feedback
+7. Logout
+8. Delete Account
+
+Your Choice: 1
+
+You already have an Active Reservation. Kindly Select another Option.
+
+---------User Dashboard---------
+Select an Option:
+
+1. Reserve a Car
+2. View Current Reservation
+3. Show Reservation History
+4. Add Balance to the Account
+5. View Account Credentials
+6. Submit Feedback
+7. Logout
+8. Delete Account
+
+Your Choice: 2
+
+------------Your Reservation Information-----------
+Reservation ID         | R105
+Customer Name          | Abdur Rahman Abdul Hafeez
+Reserved Car ID        | C107
+Reserved Car Name      | Alto
+Reserved Car Model     | 2020
+Reservation Period     | 4 Days
+Reservation Start Date | 2025-05-18
+Reservation End Date   | 2025-05-22
+Reservation Charges    | PKR 32000
+
+Select an Option:
+1. Extend this Reservation
+2. Cancel this Reservation
+Or Enter Any Key to Go Back
+
+Your Choice: x
+
+---------User Dashboard---------
+Select an Option:
+
+1. Reserve a Car
+2. View Current Reservation
+3. Show Reservation History
+4. Add Balance to the Account
+5. View Account Credentials
+6. Submit Feedback
+7. Logout
+8. Delete Account
+
+Your Choice: 4
+
+Your Current Balance is: PKR 3000
+How much Additional Balance you want to Deposit into this Account?
+PKR 27000
+Now Your Balance is PKR 30000
+
+---------User Dashboard---------
+Select an Option:
+
+1. Reserve a Car
+2. View Current Reservation
+3. Show Reservation History
+4. Add Balance to the Account
+5. View Account Credentials
+6. Submit Feedback
+7. Logout
+8. Delete Account
+
+Your Choice: 2
+
+------------Your Reservation Information-----------
+Reservation ID         | R105
+Customer Name          | Abdur Rahman Abdul Hafeez
+Reserved Car ID        | C107
+Reserved Car Name      | Alto
+Reserved Car Model     | 2020
+Reservation Period     | 4 Days
+Reservation Start Date | 2025-05-18
+Reservation End Date   | 2025-05-22
+Reservation Charges    | PKR 32000
+
+Select an Option:
+1. Extend this Reservation
+2. Cancel this Reservation
+Or Enter Any Key to Go Back
+
+Your Choice: 1
+By how many Days you want to Extend this Reservation?
+2
+Reservation Extension Successful!
+
+------------Your Reservation Information-----------
+Reservation ID         | R106
+Customer Name          | Abdur Rahman Abdul Hafeez
+Reserved Car ID        | C107
+Reserved Car Name      | Alto
+Reserved Car Model     | 2020
+Reservation Period     | 6 Days
+Reservation Start Date | 2025-05-18
+Reservation End Date   | 2025-05-24
+Reservation Charges    | PKR 48000
+
+Thanks for Extending the Reservation!
+
+---------User Dashboard---------
+Select an Option:
+
+1. Reserve a Car
+2. View Current Reservation
+3. Show Reservation History
+4. Add Balance to the Account
+5. View Account Credentials
+6. Submit Feedback
+7. Logout
+8. Delete Account
+
+Your Choice: 3
+
+Your Past and Current Reservations:
+
+R-ID |  Status   | U-ID |   Client    | C-ID | Reserved Car | Model | Rental Period | Start Date |  End Date  | Rental Fee | 
+R105 | Cancelled | U102 | AbdurRahman | C107 |     Alto     | 2020  |    4 Days     | 2025-05-18 | 2025-05-22 | PKR 32000  | 
+R106 |  Active   | U102 | AbdurRahman | C107 |     Alto     | 2020  |    6 Days     | 2025-05-18 | 2025-05-24 | PKR 48000  | 
+
+---------User Dashboard---------
+Select an Option:
+
+1. Reserve a Car
+2. View Current Reservation
+3. Show Reservation History
+4. Add Balance to the Account
+5. View Account Credentials
+6. Submit Feedback
+7. Logout
+8. Delete Account
+
+Your Choice: 5
+
+-----------Your Credentials-----------
+User ID    | U102
+Username   | AbdurRahman
+First Name | Abdur Rahman
+Last Name  | Abdul Hafeez
+Balance    | PKR 14000
+
+
+---------User Dashboard---------
+Select an Option:
+
+1. Reserve a Car
+2. View Current Reservation
+3. Show Reservation History
+4. Add Balance to the Account
+5. View Account Credentials
+6. Submit Feedback
+7. Logout
+8. Delete Account
+
+Your Choice: 6
+
+Submit your Feedback here:
+Should provide a driver as well along with car
+
+Thanks for Providing Feedback!
+
+---------User Dashboard---------
+Select an Option:
+
+1. Reserve a Car
+2. View Current Reservation
+3. Show Reservation History
+4. Add Balance to the Account
+5. View Account Credentials
+6. Submit Feedback
+7. Logout
+8. Delete Account
+
+Your Choice: 2
+
+------------Your Reservation Information-----------
+Reservation ID         | R106
+Customer Name          | Abdur Rahman Abdul Hafeez
+Reserved Car ID        | C107
+Reserved Car Name      | Alto
+Reserved Car Model     | 2020
+Reservation Period     | 6 Days
+Reservation Start Date | 2025-05-18
+Reservation End Date   | 2025-05-24
+Reservation Charges    | PKR 48000
+
+Select an Option:
+1. Extend this Reservation
+2. Cancel this Reservation
+Or Enter Any Key to Go Back
+
+Your Choice: 2
+Reservation Cancelled
+
+---------User Dashboard---------
+Select an Option:
+
+1. Reserve a Car
+2. View Current Reservation
+3. Show Reservation History
+4. Add Balance to the Account
+5. View Account Credentials
+6. Submit Feedback
+7. Logout
+8. Delete Account
+
+Your Choice: 2
+
+You do not have an Active Reservation. Kindly Select another Option.
+
+---------User Dashboard---------
+Select an Option:
+
+1. Reserve a Car
+2. View Current Reservation
+3. Show Reservation History
+4. Add Balance to the Account
+5. View Account Credentials
+6. Submit Feedback
+7. Logout
+8. Delete Account
+
+Your Choice: 3
+
+Your Past and Current Reservations:
+
+R-ID |  Status   | U-ID |   Client    | C-ID | Reserved Car | Model | Rental Period | Start Date |  End Date  | Rental Fee | 
+R105 | Cancelled | U102 | AbdurRahman | C107 |     Alto     | 2020  |    4 Days     | 2025-05-18 | 2025-05-22 | PKR 32000  | 
+R106 | Cancelled | U102 | AbdurRahman | C107 |     Alto     | 2020  |    6 Days     | 2025-05-18 | 2025-05-24 | PKR 48000  | 
+
+---------User Dashboard---------
+Select an Option:
+
+1. Reserve a Car
+2. View Current Reservation
+3. Show Reservation History
+4. Add Balance to the Account
+5. View Account Credentials
+6. Submit Feedback
+7. Logout
+8. Delete Account
+
+Your Choice: 7
+
+Logged Out Successfully!
+Thanks for Visiting. Have a Blessed Day!
