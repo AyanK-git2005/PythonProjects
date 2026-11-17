@@ -5,4 +5,4 @@ print('\nEnvironment:')
 print(load_env('env1.txt'))
 
 print('\nSchedule:')
-print(load_sched('sched1v.txt'),'\n')
+print(load_sched('sched1.txt'),'\n')

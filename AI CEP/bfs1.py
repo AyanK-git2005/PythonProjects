@@ -41,5 +41,4 @@ def bfs_pathfinding(grid_dimensions, obst_loc, start, goal):
             if (0 <= nr < rows) and (0 <= nc < cols) and (neighbor not in obstacles) and (neighbor not in visited):
                 visited.add(neighbor)
                 queue.append((neighbor, path + [neighbor]))
-                
     return None  # Return None if no valid path exists
