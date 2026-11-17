@@ -1,7 +1,19 @@
 
 def load_sched(filename):
-    '''Loads Environment text file and returns the tuple: (Number of Timeslots,
-    Number of Precedence Constraints, Precedence Constraints, Number of Time Constraints, Time Constraints)'''
+    """Loads scheduling, precedence, and time constraints from a text file.
+
+    Parameters:
+    - filename (str): The path to the schedule text file.
+
+    Returns:
+    - tuple: A 5-tuple containing:
+        - timeslots_num (int): Total number of available timeslots.
+        - prec_constraints_num (int): Number of precedence constraints.
+        - prec_constraints (list of tuples): Parsed pairs of precedence constraints with 'D' prefix removed.
+        - time_constraints_num (int): Number of time constraints.
+        - time_constraints (list of tuples): Parsed time constraints with 'D' and 'T' prefixes removed.
+    - Returns `None` if an error occurs during parsing or file loading.
+    """
     
     try:
         with open(filename, "r") as sched_file:
