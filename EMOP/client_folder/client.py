@@ -1,85 +1,86 @@
 # client folder/client.py
-import tkinter as tk
-from tkinter import ttk, filedialog, messagebox, scrolledtext
+import FreeSimpleGUI as sg
 import socket
 import sys
 import os
+import threading
 
 # Allow importing from the parent directory
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from mop_protocol import (
+from EMOP import (
     send_mop_message, receive_mop_message,
     MSG_LIST, MSG_FETCH, MSG_PUT, MSG_UNCHANGED, MSG_FAIL,
     SOURCE_ORIGIN, STATUS_OK
 )
 
-HOST = "127.0.0.1"
-PORT = 9091 # Pointing to Proxy
+HOST = "100.98.59.20" # Tailscale IP of Proxy (or 127.0.0.1 for local testing)
+PORT = 9091 
 PSK = b'0123456789abcdef0123456789abcdef'
 
-# Define current folder as the client root for saving files
 CLIENT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 class MOPClientGUI:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("MOP Protocol Client")
-        self.root.geometry("600x520")
-        
-        # Message Type Selection
-        tk.Label(root, text="Message Type:").grid(row=0, column=0, padx=10, pady=10, sticky="w")
-        self.msg_type_var = tk.StringVar(value="FETCH")
-        self.type_dropdown = ttk.Combobox(root, textvariable=self.msg_type_var, state="readonly", 
-                                          values=["LIST", "FETCH", "PUT", "UNCHANGED", "FAIL"])
-        self.type_dropdown.grid(row=0, column=1, padx=10, pady=10, sticky="w")
-        self.type_dropdown.bind("<<ComboboxSelected>>", self.toggle_inputs)
+    def __init__(self):
+        self.persistent_sock = None # Tracks active persistent socket
 
-        # Filename Input (For FETCH)
-        tk.Label(root, text="Filename (Fetch/Check):").grid(row=1, column=0, padx=10, pady=10, sticky="w")
-        self.filename_entry = tk.Entry(root, width=30)
-        self.filename_entry.grid(row=1, column=1, padx=10, pady=10, sticky="w")
-        self.filename_entry.insert(0, "b.txt")
+        layout = [
+            [sg.Text("Message Type:", size=(20, 1)), 
+             sg.Combo(["LIST", "FETCH", "PUT", "UNCHANGED", "FAIL"], default_value="FETCH", key="-MSG_TYPE-", readonly=True, enable_events=True, size=(28, 1))],
+            
+            [sg.Text("Filename (Fetch/Check):", size=(20, 1)), 
+             sg.Input("b.txt", key="-FILENAME-", size=(30, 1))],
+            
+            [sg.Text("File to Upload (PUT):", size=(20, 1)), 
+             sg.Input(key="-FILEPATH-", size=(30, 1), disabled=True), 
+             sg.FileBrowse("Browse", key="-BROWSE-", disabled=True)],
+            
+            [sg.Checkbox("Enable Persistent Connection Mode", default=False, key="-PERSISTENT-", enable_events=True),
+             sg.Push(),
+             sg.Button("Close Persistent Socket", key="-DISCONNECT-", button_color=("black", "orange"), disabled=True)],
+            
+            [sg.Push(), sg.Button("Send Request", key="-SEND-", button_color=("black", "lightblue")), sg.Push()],
+            
+            [sg.Text("Transfer Progress:", size=(15, 1)),
+             sg.ProgressBar(100, orientation='h', size=(42, 18), key="-PROGRESS-")],
+            
+            [sg.Multiline(size=(78, 15), key="-CONSOLE-", disabled=True, autoscroll=True)]
+        ]
 
-        # File Picker (For PUT)
-        tk.Label(root, text="File to Upload (PUT):").grid(row=2, column=0, padx=10, pady=10, sticky="w")
-        self.filepath_var = tk.StringVar()
-        self.filepath_entry = tk.Entry(root, textvariable=self.filepath_var, width=30, state="disabled")
-        self.filepath_entry.grid(row=2, column=1, padx=10, pady=10, sticky="w")
-        self.browse_btn = tk.Button(root, text="Browse", command=self.browse_file, state="disabled")
-        self.browse_btn.grid(row=2, column=2, padx=10, pady=10)
-
-        # Send Button
-        self.send_btn = tk.Button(root, text="Send Request", bg="lightblue", command=self.send_request)
-        self.send_btn.grid(row=3, column=0, columnspan=3, pady=15)
-
-        # Console Output
-        self.console = scrolledtext.ScrolledText(root, width=72, height=14, state="disabled")
-        self.console.grid(row=4, column=0, columnspan=3, padx=10, pady=10)
+        self.window = sg.Window("MOP Protocol Client (Persistent & Non-Persistent)", layout, finalize=True)
 
     def log(self, text):
-        self.console.config(state="normal")
-        self.console.insert(tk.END, text + "\n")
-        self.console.see(tk.END)
-        self.console.config(state="disabled")
+        self.window.write_event_value("-LOG-", text)
 
-    def toggle_inputs(self, event=None):
-        selection = self.msg_type_var.get()
+    def update_progress(self, value):
+        self.window.write_event_value("-UPDATE_PROG-", value)
+
+    def toggle_inputs(self, selection):
         if selection == "PUT":
-            self.filename_entry.config(state="disabled")
-            self.browse_btn.config(state="normal")
+            self.window["-FILENAME-"].update(disabled=True)
+            self.window["-BROWSE-"].update(disabled=False)
         elif selection in ["FETCH", "UNCHANGED"]:
-            self.filename_entry.config(state="normal")
-            self.browse_btn.config(state="disabled")
-        else: # LIST, FAIL
-            self.filename_entry.config(state="disabled")
-            self.browse_btn.config(state="disabled")
+            self.window["-FILENAME-"].update(disabled=False)
+            self.window["-BROWSE-"].update(disabled=True)
+        else:
+            self.window["-FILENAME-"].update(disabled=True)
+            self.window["-BROWSE-"].update(disabled=True)
 
-    def browse_file(self):
-        filepath = filedialog.askopenfilename(title="Select File to Upload")
-        if filepath: self.filepath_var.set(filepath)
+    def toggle_persistent_mode(self, is_persistent):
+        if not is_persistent and self.persistent_sock:
+            self.close_persistent_socket()
 
-    def send_request(self):
-        msg_str = self.msg_type_var.get()
+    def close_persistent_socket(self):
+        if self.persistent_sock:
+            try:
+                self.persistent_sock.close()
+            except:
+                pass
+            self.persistent_sock = None
+            self.log("[*] Persistent TCP connection closed manually.")
+        self.window.write_event_value("-DISCONNECT_STATE-", True)
+
+    def send_request(self, values):
+        msg_str = values["-MSG_TYPE-"]
         payload = b""
         
         msg_mapping = {"LIST": MSG_LIST, "FETCH": MSG_FETCH, "PUT": MSG_PUT, "UNCHANGED": MSG_UNCHANGED, "FAIL": MSG_FAIL}
@@ -87,31 +88,81 @@ class MOPClientGUI:
 
         target_filename = ""
         if msg_str in ["FETCH", "UNCHANGED"]:
-            target_filename = self.filename_entry.get().strip()
-            if not target_filename: return messagebox.showerror("Error", "Filename cannot be empty.")
+            target_filename = values["-FILENAME-"].strip()
+            if not target_filename:
+                self.window.write_event_value("-ERROR-", "Filename cannot be empty.")
+                return
             payload = target_filename.encode('utf-8')
         elif msg_str == "PUT":
-            filepath = self.filepath_var.get()
-            if not os.path.exists(filepath): return messagebox.showerror("Error", "Invalid file selected.")
+            filepath = values["-FILEPATH-"]
+            if not os.path.exists(filepath):
+                self.window.write_event_value("-ERROR-", "Invalid file selected.")
+                return
             filename = os.path.basename(filepath).encode('utf-8')
+            
+            # Read file in chunks to reflect progress without freezing
+            file_size = os.path.getsize(filepath)
+            file_data = bytearray()
+            chunk_size = 65536 # 64KB chunks
+            bytes_read = 0
+            
+            self.update_progress(0)
             with open(filepath, 'rb') as f:
-                file_data = f.read()
-            payload = bytes([len(filename)]) + filename + file_data
+                while True:
+                    chunk = f.read(chunk_size)
+                    if not chunk:
+                        break
+                    file_data.extend(chunk)
+                    bytes_read += len(chunk)
+                    if file_size > 0:
+                        # Scale file reading progress up to 50%
+                        self.update_progress(int((bytes_read / file_size) * 50))
+                        
+            payload = bytes([len(filename)]) + filename + bytes(file_data)
         elif msg_str == "FAIL":
             payload = b"Manual Client Error Test"
 
-        self.log(f"--- Sending {msg_str} to Proxy ({PORT}) ---")
+        is_persistent = values["-PERSISTENT-"]
+        mode_str = "PERSISTENT" if is_persistent else "NON-PERSISTENT"
+        self.log(f"--- Sending {msg_str} [{mode_str}] to Proxy ---")
+
+        self.window.write_event_value("-SEND_STATE-", True)
+        if msg_str != "PUT":
+            self.update_progress(10)
+
         try:
-            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            s.connect((HOST, PORT))
-            send_mop_message(s, msg_type, outcome=0, source=SOURCE_ORIGIN, payload=payload, psk=PSK)
+            # Determine socket to use
+            if is_persistent:
+                if self.persistent_sock is None:
+                    self.log("[*] Opening new persistent TCP connection handshake...")
+                    self.persistent_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                    self.persistent_sock.connect((HOST, PORT))
+                    self.window.write_event_value("-DISCONNECT_STATE-", False)
+                sock = self.persistent_sock
+            else:
+                # Non-persistent: Fresh socket per request
+                sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                sock.connect((HOST, PORT))
+
+            if msg_str == "PUT":
+                self.update_progress(60)
+            else:
+                self.update_progress(40)
+
+            # Send message and receive response
+            send_mop_message(sock, msg_type, outcome=0, source=SOURCE_ORIGIN, payload=payload, psk=PSK)
             
-            response = receive_mop_message(s, psk=PSK)
+            if msg_str == "PUT":
+                self.update_progress(85)
+            else:
+                self.update_progress(70)
+                
+            response = receive_mop_message(sock, psk=PSK)
+            
             self.log(f"[Response] Type: {response['msg_type']}, Outcome: {response['outcome']}, Source: {response['source']}")
             
             resp_payload = response['payload']
             
-            # --- NEW: Automatically save fetched file to client folder ---
             if msg_str == "FETCH" and response['outcome'] == STATUS_OK:
                 save_path = os.path.join(CLIENT_ROOT, target_filename)
                 with open(save_path, 'wb') as f:
@@ -125,11 +176,56 @@ class MOPClientGUI:
                     self.log(f"[Payload Text] {resp_payload.decode('utf-8')}")
                 except:
                     self.log(f"[Payload Hex] {resp_payload.hex()}")
-            s.close()
+
+            # Close socket ONLY if non-persistent
+            if not is_persistent:
+                sock.close()
+                self.log("[*] Non-persistent socket closed automatically.")
+            else:
+                self.log("[*] Persistent socket remains OPEN for next request.")
+
+            self.update_progress(100)
+
         except Exception as e:
             self.log(f"[!] Network Error: {e}")
+            self.update_progress(0)
+            if is_persistent:
+                self.close_persistent_socket()
+        finally:
+            self.window.write_event_value("-SEND_STATE-", False)
+
+    def run(self):
+        while True:
+            event, values = self.window.read()
+            if event == sg.WIN_CLOSED:
+                if self.persistent_sock:
+                    try:
+                        self.persistent_sock.close()
+                    except:
+                        pass
+                break
+            elif event == "-MSG_TYPE-":
+                self.toggle_inputs(values["-MSG_TYPE-"])
+            elif event == "-PERSISTENT-":
+                self.toggle_persistent_mode(values["-PERSISTENT-"])
+            elif event == "-DISCONNECT-":
+                self.close_persistent_socket()
+            elif event == "-SEND-":
+                # Run network transfer in a separate thread so the GUI stays responsive
+                threading.Thread(target=self.send_request, args=(values,), daemon=True).start()
+            elif event == "-LOG-":
+                self.window["-CONSOLE-"].update(values["-LOG-"] + "\n", append=True)
+            elif event == "-UPDATE_PROG-":
+                self.window["-PROGRESS-"].update(values["-UPDATE_PROG-"])
+            elif event == "-DISCONNECT_STATE-":
+                self.window["-DISCONNECT-"].update(disabled=values["-DISCONNECT_STATE-"])
+            elif event == "-SEND_STATE-":
+                self.window["-SEND-"].update(disabled=values["-SEND_STATE-"])
+            elif event == "-ERROR-":
+                sg.popup_error(values["-ERROR-"], title="Error")
+
+        self.window.close()
 
 if __name__ == "__main__":
-    root = tk.Tk()
-    app = MOPClientGUI(root)
-    root.mainloop()
+    app = MOPClientGUI()
+    app.run()

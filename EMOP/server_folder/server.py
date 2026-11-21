@@ -4,14 +4,14 @@ import sys
 import os
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from mop_protocol import (
+from EMOP import (
     send_mop_message, receive_mop_message,
     MSG_LIST, MSG_FETCH, MSG_PUT, MSG_UNCHANGED, MSG_FAIL, MSG_OBJECT,
     SOURCE_ORIGIN, STATUS_OK, STATUS_CREATED, STATUS_NOT_MODIFIED, 
-    STATUS_NOT_FOUND, STATUS_BAD_REQUEST, STATUS_SERVER_ERROR
+    STATUS_NOT_FOUND, STATUS_BAD_REQUEST
 )
 
-HOST = "127.0.0.1" 
+HOST = "0.0.0.0" 
 PORT = 9090
 PSK = b'0123456789abcdef0123456789abcdef'
 
@@ -65,19 +65,29 @@ def run_server():
                     print(f" -> Successfully saved uploaded file: {filename}")
                     send_mop_message(conn, MSG_OBJECT, outcome=STATUS_CREATED, source=SOURCE_ORIGIN, payload=b"Upload Successful", psk=PSK)
 
-                # --- NEW: Added handler for UNCHANGED (Revalidation) ---
                 elif msg_type == MSG_UNCHANGED:
-                    filename = payload.decode('utf-8')
+                    # Payload format: filename|proxy_mtime
+                    parts = payload.split(b"|")
+                    filename = parts[0].decode('utf-8')
+                    proxy_mtime = float(parts[1].decode('utf-8')) if len(parts) > 1 else 0.0
+                    
                     filepath = os.path.join(SERVER_ROOT, filename)
                     if os.path.exists(filepath):
-                        print(f" -> Revalidation check (UNCHANGED) for: {filename}")
-                        # Equivalent to HTTP 304 Not Modified with a 0-byte payload
-                        send_mop_message(conn, MSG_UNCHANGED, outcome=STATUS_NOT_MODIFIED, source=SOURCE_ORIGIN, payload=b"", psk=PSK)
+                        server_mtime = os.path.getmtime(filepath)
+                        
+                        # If server file is newer than proxy file, it HAS been modified!
+                        if server_mtime > proxy_mtime:
+                            print(f" -> [Revalidation] '{filename}' was modified on server! Sending new payload.")
+                            with open(filepath, 'rb') as f:
+                                file_data = f.read()
+                            # Respond with STATUS_OK (200) and the new file data
+                            send_mop_message(conn, MSG_OBJECT, outcome=STATUS_OK, source=SOURCE_ORIGIN, payload=file_data, psk=PSK)
+                        else:
+                            print(f" -> [Revalidation] '{filename}' is unchanged. Sending 304.")
+                            send_mop_message(conn, MSG_UNCHANGED, outcome=STATUS_NOT_MODIFIED, source=SOURCE_ORIGIN, payload=b"", psk=PSK)
                     else:
-                        print(f" -> Revalidation failed, file not found: {filename}")
-                        send_mop_message(conn, MSG_FAIL, outcome=STATUS_NOT_FOUND, source=SOURCE_ORIGIN, payload=b"File Not Found for Revalidation", psk=PSK)
+                        send_mop_message(conn, MSG_FAIL, outcome=STATUS_NOT_FOUND, source=SOURCE_ORIGIN, payload=b"File Not Found", psk=PSK)
 
-                # --- NEW: Added handler for FAIL (Error Testing) ---
                 elif msg_type == MSG_FAIL:
                     print(f" -> Received manual FAIL request: {payload.decode('utf-8', errors='ignore')}")
                     send_mop_message(conn, MSG_FAIL, outcome=STATUS_BAD_REQUEST, source=SOURCE_ORIGIN, payload=b"Server acknowledged error request", psk=PSK)

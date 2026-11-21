@@ -5,7 +5,7 @@ import os
 import time
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from mop_protocol import (
+from EMOP import (
     send_mop_message, receive_mop_message,
     MSG_FETCH, MSG_OBJECT, MSG_UNCHANGED, MSG_FAIL,
     SOURCE_PROXY, STATUS_OK, STATUS_NOT_MODIFIED, STATUS_BAD_GATEWAY
