@@ -11,7 +11,7 @@ from EMOP import (
     STATUS_NOT_FOUND, STATUS_BAD_REQUEST
 )
 
-HOST = "0.0.0.0" 
+HOST = "127.0.0.1" # Loopback IP for local testing
 PORT = 9090
 PSK = b'0123456789abcdef0123456789abcdef'
 

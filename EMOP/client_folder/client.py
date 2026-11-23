@@ -4,6 +4,7 @@ import socket
 import sys
 import os
 import threading
+import time
 
 # Allow importing from the parent directory
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -13,13 +14,13 @@ from EMOP import (
     SOURCE_ORIGIN, STATUS_OK
 )
 
-HOST = "100.98.59.20" # Tailscale IP of Proxy (or 127.0.0.1 for local testing)
+HOST = "127.0.0.1" # Loopback IP for local testing
 PORT = 9091 
 PSK = b'0123456789abcdef0123456789abcdef'
 
 CLIENT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
-class MOPClientGUI:
+class EMOPClientGUI:
     def __init__(self):
         self.persistent_sock = None # Tracks active persistent socket
 
@@ -43,10 +44,13 @@ class MOPClientGUI:
             [sg.Text("Transfer Progress:", size=(15, 1)),
              sg.ProgressBar(100, orientation='h', size=(42, 18), key="-PROGRESS-")],
             
+            [sg.Text("Last Response Time:", size=(20, 1)),
+             sg.Text("N/A", key="-RTT-", size=(28, 1), font=("Any", 10, "bold"))],
+            
             [sg.Multiline(size=(78, 15), key="-CONSOLE-", disabled=True, autoscroll=True)]
         ]
 
-        self.window = sg.Window("MOP Protocol Client (Persistent & Non-Persistent)", layout, finalize=True)
+        self.window = sg.Window("EMOP Client (Persistent & Non-Persistent)", layout, finalize=True)
 
     def log(self, text):
         self.window.write_event_value("-LOG-", text)
@@ -149,7 +153,8 @@ class MOPClientGUI:
             else:
                 self.update_progress(40)
 
-            # Send message and receive response
+            # Send message and receive response, measuring round-trip time
+            start_time = time.perf_counter()
             send_mop_message(sock, msg_type, outcome=0, source=SOURCE_ORIGIN, payload=payload, psk=PSK)
             
             if msg_str == "PUT":
@@ -158,7 +163,10 @@ class MOPClientGUI:
                 self.update_progress(70)
                 
             response = receive_mop_message(sock, psk=PSK)
+            elapsed_ms = (time.perf_counter() - start_time) * 1000
             
+            self.window.write_event_value("-RTT_UPDATE-", f"{elapsed_ms:.2f} ms ({elapsed_ms / 1000:.4f} s)")
+            self.log(f"[Response Time] {elapsed_ms:.2f} ms")
             self.log(f"[Response] Type: {response['msg_type']}, Outcome: {response['outcome']}, Source: {response['source']}")
             
             resp_payload = response['payload']
@@ -217,6 +225,8 @@ class MOPClientGUI:
                 self.window["-CONSOLE-"].update(values["-LOG-"] + "\n", append=True)
             elif event == "-UPDATE_PROG-":
                 self.window["-PROGRESS-"].update(values["-UPDATE_PROG-"])
+            elif event == "-RTT_UPDATE-":
+                self.window["-RTT-"].update(values["-RTT_UPDATE-"])
             elif event == "-DISCONNECT_STATE-":
                 self.window["-DISCONNECT-"].update(disabled=values["-DISCONNECT_STATE-"])
             elif event == "-SEND_STATE-":
@@ -227,5 +237,5 @@ class MOPClientGUI:
         self.window.close()
 
 if __name__ == "__main__":
-    app = MOPClientGUI()
+    app = EMOPClientGUI()
     app.run()

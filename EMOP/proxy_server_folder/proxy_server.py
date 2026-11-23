@@ -11,9 +11,9 @@ from EMOP import (
     SOURCE_PROXY, STATUS_OK, STATUS_NOT_MODIFIED, STATUS_BAD_GATEWAY
 )
 
-PROXY_HOST = "0.0.0.0"
+PROXY_HOST = "127.0.0.1" # Loopback IP for local testing
 PROXY_PORT = 9091       
-ORIGIN_HOST = "100.122.19.68"
+ORIGIN_HOST = "127.0.0.1" # Loopback IP for local testing
 ORIGIN_PORT = 9090      
 PSK = b'0123456789abcdef0123456789abcdef'
 
